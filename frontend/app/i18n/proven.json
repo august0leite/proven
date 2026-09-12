@@ -6,8 +6,8 @@
       "hero": {
         "badge": "Real-world contract verification",
         "title": "Contracts define what should happen.",
-        "titleAccent": "We make sure it is Proven.",
-        "description": "Cross-border contracts depend on real-world events that traditional smart contracts cannot directly verify. Proven connects contractual conditions to attributable evidence, attestations and verifiable contract states.",
+        "titleAccent": "Proven verifies what happened.",
+        "description": "Verifiable evidence for real-world contracts.",
         "stats": [
           { "label": "Conditions", "value": "Defined" },
           { "label": "Evidence", "value": "Attributable" },
