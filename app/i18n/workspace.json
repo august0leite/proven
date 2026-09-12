@@ -1,0 +1,316 @@
+{
+  "en": {
+    "shell": {
+      "brand": "Proven",
+      "nav": {
+        "dashboard": "Dashboard",
+        "contracts": "Contracts",
+        "profile": "Profile",
+        "signOut": "Sign out"
+      },
+      "userMenu": {
+        "profile": "Profile",
+        "signOut": "Sign out"
+      },
+      "mobile": {
+        "dashboard": "Dashboard",
+        "contracts": "Contracts",
+        "profile": "Profile"
+      }
+    },
+    "statuses": {
+      "pending": "PENDING",
+      "verified": "VERIFIED",
+      "failed": "FAILED",
+      "revoked": "REVOKED",
+      "expired": "EXPIRED",
+      "disputed": "DISPUTED",
+      "ready": "READY TO SETTLE",
+      "settled": "SETTLED"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Monitor your contracts and verification status.",
+      "createContract": "Create Contract",
+      "summary": {
+        "total": "Total Contracts",
+        "pending": "Pending",
+        "ready": "Ready to Settle",
+        "completed": "Completed"
+      },
+      "recentContracts": "Recent contracts",
+      "attention": "Needs attention",
+      "empty": {
+        "title": "No contracts yet",
+        "body": "Create your first contract and define the conditions Proven will verify.",
+        "cta": "Create Contract"
+      }
+    },
+    "contractsPage": {
+      "title": "Contracts",
+      "subtitle": "Track contract state, evidence, and verification progress.",
+      "createContract": "Create Contract",
+      "filters": {
+        "all": "All Contracts",
+        "pending": "Pending",
+        "ready": "Ready to Settle",
+        "completed": "Completed"
+      },
+      "table": {
+        "name": "Contract",
+        "counterparty": "Counterparty",
+        "value": "Value",
+        "progress": "Progress",
+        "status": "Status",
+        "updated": "Updated"
+      }
+    },
+    "contractCreate": {
+      "title": "Create a contract",
+      "subtitle": "Define the contract, parties, conditions, and review before creation.",
+      "steps": {
+        "contract": "Contract",
+        "parties": "Parties",
+        "conditions": "Conditions",
+        "review": "Review",
+        "create": "Create"
+      },
+      "form": {
+        "contractName": "Contract name",
+        "description": "Description",
+        "contractValue": "Contract value",
+        "currency": "Currency",
+        "reference": "Contract reference",
+        "buyer": "Buyer",
+        "seller": "Seller",
+        "organization": "Organization / company",
+        "identifier": "Identifier",
+        "verificationStatus": "Verification status",
+        "pendingVerification": "Pending verification",
+        "verified": "Verified",
+        "conditionsTitle": "Contract conditions",
+        "conditionsBody": "Define what must be verified before the contract can be fulfilled.",
+        "addCondition": "Add condition",
+        "condition": "Condition",
+        "conditionDescription": "Description",
+        "requiredEvidence": "Required evidence",
+        "authorizedIssuer": "Authorized issuer",
+        "verificationMethod": "Verification method",
+        "reviewTitle": "Review contract",
+        "back": "Back",
+        "next": "Next",
+        "createContract": "Create Contract",
+        "creating": "Creating contract..."
+      }
+    },
+    "contractDetail": {
+      "back": "Back to Contracts",
+      "notFound": "Contract not found.",
+      "contractState": "Contract state",
+      "stateFlow": ["Contract created", "Conditions defined", "Evidence collected", "Verification", "All conditions fulfilled", "Ready to Settle"],
+      "conditions": "Conditions",
+      "conditionsProgress": "conditions verified",
+      "evidence": "Evidence",
+      "issuedBy": "Issued by",
+      "issuedAt": "Issued at",
+      "evidenceSource": "Evidence source",
+      "attestation": "Attestation",
+      "schema": "Schema",
+      "proof": "Proof",
+      "verification": "Verification",
+      "verifiedAt": "Verified at",
+      "status": "Status",
+      "newEvidence": "New evidence",
+      "pendingProof": "Pending",
+      "pendingVerifiedAt": "Pending",
+      "pendingTitle": "7 / 8",
+      "pendingBody": "Delivery confirmation is still pending. Add the final evidence to complete verification.",
+      "addEvidence": "Add evidence",
+      "addingEvidence": "Adding evidence...",
+      "allConditionsVerified": "All contractual conditions have been verified.",
+      "proceedSettlement": "Proceed to Settlement",
+      "settlementTitle": "Settlement preview",
+      "settlementBody": "Settlement requires wallet authorization. This MVP keeps the flow contextual and demonstrates the final execution step.",
+      "close": "Close"
+    },
+    "profilePage": {
+      "title": "Profile",
+      "subtitle": "Manage your identity, security, wallets, and language preferences.",
+      "personal": "Personal information",
+      "fullName": "Full name",
+      "email": "Email",
+      "security": "Security",
+      "password": "Password",
+      "wallets": "Connected wallets",
+      "language": "Language",
+      "changePassword": "Change password",
+      "connectWallet": "Connect wallet",
+      "noWallet": "No wallet connected",
+      "connected": "Connected"
+    },
+    "common": {
+      "updated": "Updated",
+      "verificationPending": "Verification pending",
+      "valid": "Valid",
+      "submitted": "Submitted",
+      "of": "of"
+    }
+  },
+  "pt": {
+    "shell": {
+      "brand": "Proven",
+      "nav": {
+        "dashboard": "Dashboard",
+        "contracts": "Contratos",
+        "profile": "Perfil",
+        "signOut": "Sair"
+      },
+      "userMenu": {
+        "profile": "Perfil",
+        "signOut": "Sair"
+      },
+      "mobile": {
+        "dashboard": "Dashboard",
+        "contracts": "Contratos",
+        "profile": "Perfil"
+      }
+    },
+    "statuses": {
+      "pending": "PENDENTE",
+      "verified": "VERIFICADO",
+      "failed": "FALHOU",
+      "revoked": "REVOGADO",
+      "expired": "EXPIRADO",
+      "disputed": "EM DISPUTA",
+      "ready": "PRONTO PARA LIQUIDAR",
+      "settled": "LIQUIDADO"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Monitore seus contratos e o status de verificacao.",
+      "createContract": "Criar contrato",
+      "summary": {
+        "total": "Total de contratos",
+        "pending": "Pendentes",
+        "ready": "Prontos para liquidar",
+        "completed": "Concluidos"
+      },
+      "recentContracts": "Contratos recentes",
+      "attention": "Precisam de atencao",
+      "empty": {
+        "title": "Nenhum contrato ainda",
+        "body": "Crie seu primeiro contrato e defina as condicoes que a Proven vai verificar.",
+        "cta": "Criar contrato"
+      }
+    },
+    "contractsPage": {
+      "title": "Contratos",
+      "subtitle": "Acompanhe o estado contratual, evidencias e progresso de verificacao.",
+      "createContract": "Criar contrato",
+      "filters": {
+        "all": "Todos os contratos",
+        "pending": "Pendentes",
+        "ready": "Prontos para liquidar",
+        "completed": "Concluidos"
+      },
+      "table": {
+        "name": "Contrato",
+        "counterparty": "Contraparte",
+        "value": "Valor",
+        "progress": "Progresso",
+        "status": "Status",
+        "updated": "Atualizado"
+      }
+    },
+    "contractCreate": {
+      "title": "Criar um contrato",
+      "subtitle": "Defina o contrato, as partes, as condicoes e revise antes de criar.",
+      "steps": {
+        "contract": "Contrato",
+        "parties": "Partes",
+        "conditions": "Condicoes",
+        "review": "Revisao",
+        "create": "Criacao"
+      },
+      "form": {
+        "contractName": "Nome do contrato",
+        "description": "Descricao",
+        "contractValue": "Valor do contrato",
+        "currency": "Moeda",
+        "reference": "Referencia do contrato",
+        "buyer": "Comprador",
+        "seller": "Vendedor",
+        "organization": "Organizacao / empresa",
+        "identifier": "Identificador",
+        "verificationStatus": "Status de verificacao",
+        "pendingVerification": "Verificacao pendente",
+        "verified": "Verificado",
+        "conditionsTitle": "Condicoes do contrato",
+        "conditionsBody": "Defina o que deve ser verificado antes que o contrato possa ser cumprido.",
+        "addCondition": "Adicionar condicao",
+        "condition": "Condicao",
+        "conditionDescription": "Descricao",
+        "requiredEvidence": "Evidencia necessaria",
+        "authorizedIssuer": "Emissor autorizado",
+        "verificationMethod": "Metodo de verificacao",
+        "reviewTitle": "Revisar contrato",
+        "back": "Voltar",
+        "next": "Continuar",
+        "createContract": "Criar contrato",
+        "creating": "Criando contrato..."
+      }
+    },
+    "contractDetail": {
+      "back": "Voltar para Contratos",
+      "notFound": "Contrato nao encontrado.",
+      "contractState": "Estado do contrato",
+      "stateFlow": ["Contrato criado", "Condicoes definidas", "Evidencias coletadas", "Verificacao", "Todas as condicoes cumpridas", "Pronto para liquidar"],
+      "conditions": "Condicoes",
+      "conditionsProgress": "condicoes verificadas",
+      "evidence": "Evidencias",
+      "issuedBy": "Emitido por",
+      "issuedAt": "Emitido em",
+      "evidenceSource": "Fonte da evidencia",
+      "attestation": "Attestation",
+      "schema": "Schema",
+      "proof": "Prova",
+      "verification": "Verificacao",
+      "verifiedAt": "Verificado em",
+      "status": "Status",
+      "newEvidence": "Nova evidencia",
+      "pendingProof": "Pendente",
+      "pendingVerifiedAt": "Pendente",
+      "pendingTitle": "7 / 8",
+      "pendingBody": "A confirmacao de entrega ainda esta pendente. Adicione a evidencia final para concluir a verificacao.",
+      "addEvidence": "Adicionar evidencia",
+      "addingEvidence": "Adicionando evidencia...",
+      "allConditionsVerified": "Todas as condicoes contratuais foram verificadas.",
+      "proceedSettlement": "Prosseguir para liquidacao",
+      "settlementTitle": "Previa de liquidacao",
+      "settlementBody": "A liquidacao exige autorizacao via wallet. Este MVP mantém o fluxo contextual e demonstra a etapa final de execucao.",
+      "close": "Fechar"
+    },
+    "profilePage": {
+      "title": "Perfil",
+      "subtitle": "Gerencie sua identidade, seguranca, wallets e preferencia de idioma.",
+      "personal": "Informacoes pessoais",
+      "fullName": "Nome completo",
+      "email": "Email",
+      "security": "Seguranca",
+      "password": "Senha",
+      "wallets": "Wallets conectadas",
+      "language": "Idioma",
+      "changePassword": "Alterar senha",
+      "connectWallet": "Conectar wallet",
+      "noWallet": "Nenhuma wallet conectada",
+      "connected": "Conectada"
+    },
+    "common": {
+      "updated": "Atualizado",
+      "verificationPending": "Verificacao pendente",
+      "valid": "Valido",
+      "submitted": "Enviado",
+      "of": "de"
+    }
+  }
+}
