@@ -31,6 +31,26 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div,
+a,
+button {
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+.font-mono,
+code,
+pre {
+  font-family: var(--font-geist-mono), "SFMono-Regular", Consolas, monospace;
+}
+
 button {
   cursor: pointer;
 }
