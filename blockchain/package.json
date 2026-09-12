@@ -1,0 +1,34 @@
+{
+  "name": "proven-blockchain",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "hardhat compile",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "test:hsk": "hardhat test test/integration/ProvenContracts.hsk.ts",
+    "node": "hardhat node",
+    "deploy:local": "hardhat ignition deploy ignition/modules/ProvenContracts.ts --network localhost",
+    "deploy:hsk": "hardhat ignition deploy ignition/modules/ProvenContracts.ts --network hskTestnet"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^3.1.8",
+    "@nomicfoundation/hardhat-ignition-viem": "^3.1.6",
+    "@nomicfoundation/hardhat-keystore": "^3.0.13",
+    "@nomicfoundation/hardhat-network-helpers": "^3.0.11",
+    "@nomicfoundation/hardhat-node-test-runner": "^3.1.0",
+    "@nomicfoundation/hardhat-toolbox-viem": "^5.0.7",
+    "@nomicfoundation/hardhat-verify": "^3.1.0",
+    "@nomicfoundation/hardhat-viem": "^3.0.9",
+    "@nomicfoundation/hardhat-viem-assertions": "^3.1.2",
+    "dotenv": "^17.4.2",
+    "hardhat": "^3.16.0",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.6.1",
+    "viem": "^2.56.3"
+  }
+}
