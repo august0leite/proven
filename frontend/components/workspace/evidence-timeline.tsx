@@ -35,6 +35,17 @@ export function EvidenceTimeline({
     return new Date(right.issuedAt).getTime() - new Date(left.issuedAt).getTime();
   });
 
+  if (sortedEvidence.length === 0) {
+    return (
+      <section className="rounded-[1.75rem] border border-black/10 bg-white p-6">
+        <h2 className="text-2xl font-semibold tracking-[-0.04em] text-[#111111]">{title}</h2>
+        <div className="mt-6 rounded-[1.25rem] border border-dashed border-black/15 bg-[#F7F6F2] p-6 text-sm text-[#111111]/60">
+          Nenhuma evidência foi enviada para este contrato ainda.
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="rounded-[1.75rem] border border-black/10 bg-white p-6">
       <h2 className="text-2xl font-semibold tracking-[-0.04em] text-[#111111]">{title}</h2>

@@ -1,40 +1,61 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/workspace/app-shell";
 import { ContractList } from "@/components/workspace/contract-list";
 import { EmptyState } from "@/components/workspace/empty-state";
 import { translations, useStoredLocale } from "@/app/i18n/client";
-import { mockContracts, contractsNeedingAttention } from "@/data/contracts/mockContracts";
+import type { ContractSummary } from "@/data/types";
 import { mockUser } from "@/data/users/mockUser";
+import { listProvenContracts } from "@/lib/blockchain/contracts";
 
 type FilterKey = "all" | "pending" | "ready" | "completed";
 
 export default function ContractsPage() {
   const { locale, setLocale } = useStoredLocale("pt");
   const [filter, setFilter] = useState<FilterKey>("all");
+  const [contracts, setContracts] = useState<ContractSummary[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const t = translations[locale].contractsPage;
   const shellText = translations[locale].shell;
   const statusLabels = translations[locale].statuses;
 
+  useEffect(() => {
+    let active = true;
+
+    listProvenContracts()
+      .then((items) => {
+        if (active) {
+          setContracts(items);
+        }
+      })
+      .finally(() => {
+        if (active) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const filteredContracts = useMemo(() => {
     if (filter === "pending") {
-      return mockContracts.filter((contract) => contract.status === "pending");
+      return contracts.filter((contract) => contract.status === "pending");
     }
 
     if (filter === "ready") {
-      return mockContracts.filter((contract) => contract.status === "ready");
+      return contracts.filter((contract) => contract.status === "ready");
     }
 
     if (filter === "completed") {
-      return mockContracts.filter(
-        (contract) => contract.status === "verified" || contract.status === "settled",
-      );
+      return contracts.filter((contract) => contract.status === "verified" || contract.status === "settled");
     }
 
-    return mockContracts;
-  }, [filter]);
+    return contracts;
+  }, [contracts, filter]);
 
   const filters: Array<{ key: FilterKey; label: string }> = [
     { key: "all", label: t.filters.all },
@@ -43,6 +64,8 @@ export default function ContractsPage() {
     { key: "completed", label: t.filters.completed },
   ];
 
+  const attentionCount = contracts.filter((contract) => contract.status === "pending" || contract.status === "ready").length;
+
   return (
     <AppShell
       locale={locale}
@@ -50,7 +73,7 @@ export default function ContractsPage() {
       currentSection="contracts"
       pageTitle={t.title}
       user={mockUser}
-      attentionCount={contractsNeedingAttention.length}
+      attentionCount={attentionCount}
       shellText={shellText}
     >
       <section className="flex flex-col gap-6">
@@ -89,7 +112,11 @@ export default function ContractsPage() {
           })}
         </div>
 
-        {filteredContracts.length === 0 ? (
+        {isLoading ? (
+          <div className="rounded-[1.75rem] border border-black/10 bg-white p-8 text-sm text-[#111111]/65">
+            Loading on-chain contracts...
+          </div>
+        ) : filteredContracts.length === 0 ? (
           <EmptyState
             title={translations[locale].dashboard.empty.title}
             body={translations[locale].dashboard.empty.body}

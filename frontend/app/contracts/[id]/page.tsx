@@ -8,9 +8,9 @@ import { ConditionList } from "@/components/workspace/condition-list";
 import { EvidenceTimeline } from "@/components/workspace/evidence-timeline";
 import { StatusBadge } from "@/components/workspace/status-badge";
 import { translations, useStoredLocale } from "@/app/i18n/client";
-import { contractsNeedingAttention, getContractById, getMedicalSupplyReadyState } from "@/data/contracts/mockContracts";
 import type { ContractDetail } from "@/data/types";
 import { mockUser } from "@/data/users/mockUser";
+import { fetchProvenContractDetail } from "@/lib/blockchain/contracts";
 import { formatCurrency } from "@/lib/format";
 
 export default function ContractDetailPage() {
@@ -21,13 +21,30 @@ export default function ContractDetailPage() {
   const shellText = translations[locale].shell;
   const statusLabels = translations[locale].statuses;
   const [contract, setContract] = useState<ContractDetail | null>(null);
-  const [isAddingEvidence, setIsAddingEvidence] = useState(false);
   const [isSettlementOpen, setIsSettlementOpen] = useState(false);
 
   useEffect(() => {
-    if (contractId) {
-      setContract(getContractById(contractId));
+    if (!contractId) {
+      return;
     }
+
+    let active = true;
+
+    fetchProvenContractDetail(contractId)
+      .then((nextContract) => {
+        if (active) {
+          setContract(nextContract);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setContract(null);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
   }, [contractId]);
 
   const currentFlowIndex = useMemo(() => {
@@ -39,19 +56,24 @@ export default function ContractDetailPage() {
       return 5;
     }
 
-    if (contract.status === "verified") {
+    if (contract.totalConditions === 0) {
+      return 0;
+    }
+
+    if (contract.verifiedConditions === contract.totalConditions) {
       return 4;
     }
 
-    return 3;
-  }, [contract]);
+    if (contract.verifiedConditions > 0) {
+      return 3;
+    }
 
-  const handleAddEvidence = async () => {
-    setIsAddingEvidence(true);
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    setContract(getMedicalSupplyReadyState());
-    setIsAddingEvidence(false);
-  };
+    if (contract.conditions.length > 0 || contract.evidence.length > 0) {
+      return 2;
+    }
+
+    return 1;
+  }, [contract]);
 
   if (!contract) {
     return (
@@ -61,7 +83,7 @@ export default function ContractDetailPage() {
         currentSection="contracts"
         pageTitle={translations[locale].contractsPage.title}
         user={mockUser}
-        attentionCount={contractsNeedingAttention.length}
+        attentionCount={0}
         shellText={shellText}
       >
         <div className="rounded-[1.75rem] border border-black/10 bg-white p-8 text-center">
@@ -84,7 +106,7 @@ export default function ContractDetailPage() {
       currentSection="contracts"
       pageTitle={contract.name}
       user={mockUser}
-      attentionCount={contractsNeedingAttention.length}
+      attentionCount={0}
       shellText={shellText}
     >
       <section className="space-y-8 pb-16 lg:pb-0">
@@ -129,19 +151,26 @@ export default function ContractDetailPage() {
                 <StatusBadge status={contract.status} label={statusLabels[contract.status]} />
               </div>
 
-              <div className="mt-6 grid gap-3 md:grid-cols-3 xl:grid-cols-6">
-                {t.stateFlow.map((item, index) => (
-                  <div
-                    key={item}
-                    className={`rounded-2xl border px-4 py-3 text-sm ${
-                      index <= currentFlowIndex
-                        ? "border-[#111111] bg-white text-[#111111]"
-                        : "border-black/10 bg-transparent text-[#111111]/45"
-                    }`}
-                  >
-                    {item}
-                  </div>
-                ))}
+              <div className="mt-6 flex flex-wrap gap-2">
+                {t.stateFlow.map((item, index) => {
+                  const isActive = index <= currentFlowIndex;
+
+                  return (
+                    <div
+                      key={item}
+                      className={`min-w-[120px] flex-1 rounded-2xl border px-3 py-3 text-center text-[11px] font-medium leading-4 ${
+                        isActive
+                          ? "border-[#111111] bg-white text-[#111111] shadow-sm"
+                          : "border-black/10 bg-transparent text-[#111111]/45"
+                      }`}
+                    >
+                      <div className="mb-2 inline-flex size-6 items-center justify-center rounded-full border border-current text-[10px]">
+                        {index + 1}
+                      </div>
+                      <div>{item}</div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -162,19 +191,15 @@ export default function ContractDetailPage() {
               </>
             ) : (
               <>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-[#111111]/45">{t.newEvidence}</div>
-                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-[#111111]">{t.pendingTitle}</h3>
-                <p className="mt-3 text-base leading-7 text-[#111111]/65">{t.pendingBody}</p>
-                {contract.id === "medical-supply-agreement" ? (
-                  <button
-                    type="button"
-                    onClick={handleAddEvidence}
-                    disabled={isAddingEvidence}
-                    className="mt-6 inline-flex items-center justify-center rounded-full bg-[#111111] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#2F6B5A] disabled:cursor-not-allowed disabled:opacity-80"
-                  >
-                    {isAddingEvidence ? t.addingEvidence : t.addEvidence}
-                  </button>
-                ) : null}
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[#111111]/45">{t.contractState}</div>
+                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-[#111111]">
+                  {contract.totalConditions === 0 ? t.stateFlow[0] : t.stateFlow[Math.max(currentFlowIndex, 0)]}
+                </h3>
+                <p className="mt-3 text-base leading-7 text-[#111111]/65">
+                  {contract.totalConditions === 0
+                    ? "Este contrato foi criado na blockchain, mas ainda não possui condições registradas."
+                    : `${contract.verifiedConditions} de ${contract.totalConditions} condições já foram validadas.`}
+                </p>
               </>
             )}
           </div>

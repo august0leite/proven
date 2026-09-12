@@ -3,6 +3,33 @@
 import Link from "next/link";
 import { translations, useStoredLocale } from "./i18n/client";
 
+function SectionHeader({
+  eyebrow,
+  title,
+  align = "left",
+  dark = false,
+}: {
+  eyebrow: string;
+  title: string;
+  align?: "left" | "center";
+  dark?: boolean;
+}) {
+  const alignment = align === "center" ? "mx-auto text-center" : "";
+  const eyebrowColor = dark ? "text-white/60" : "text-[#111111]/55";
+  const titleColor = dark ? "text-white" : "text-[#111111]";
+
+  return (
+    <div className={alignment}>
+      <div className={`font-mono text-[10px] font-medium uppercase tracking-[0.24em] ${eyebrowColor}`}>
+        {eyebrow}
+      </div>
+      <h2 className={`mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.06em] text-[#111111] md:text-5xl ${titleColor}`}>
+        {title}
+      </h2>
+    </div>
+  );
+}
+
 export default function Home() {
   const { locale, setLocale } = useStoredLocale("en");
   const t = translations[locale].landing;
@@ -72,7 +99,7 @@ export default function Home() {
         <section id="hero" className="mx-auto max-w-7xl px-6 pb-20 pt-16 lg:px-8 lg:pt-20">
           <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
             <div>
-              <div className="mb-6 inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] text-[#111111]/70">
+              <div className="mb-6 inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-[#111111]/70">
                 {t.hero.badge}
               </div>
 
@@ -101,7 +128,7 @@ export default function Home() {
               <div className="mt-10 grid max-w-xl grid-cols-3 gap-4 text-left">
                 {t.hero.stats.map((item) => (
                   <div key={item.label} className="rounded-2xl border border-black/10 bg-white p-4">
-                    <div className="text-[10px] uppercase tracking-[0.22em] text-[#111111]/55">{item.label}</div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#111111]/55">{item.label}</div>
                     <div className="mt-3 text-2xl font-semibold tracking-[-0.05em]">{item.value}</div>
                   </div>
                 ))}
@@ -114,10 +141,12 @@ export default function Home() {
                 <div className="rounded-[1.5rem] border border-[#111111]/10 bg-[#F7F6F2] p-4">
                   <div className="flex items-center justify-between border-b border-black/10 pb-4">
                     <div>
-                      <div className="text-[10px] font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.hero.visual.badge}</div>
-                      <div className="mt-1 text-lg font-semibold tracking-[-0.04em]">{t.hero.visual.title}</div>
+                      <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#111111]/55">
+                        {t.hero.visual.badge}
+                      </div>
+                      <p className="mt-1 text-lg font-medium tracking-[-0.04em]">{t.hero.visual.title}</p>
                     </div>
-                    <div className="rounded-full border border-[#2F6B5A]/20 bg-[#2F6B5A]/8 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[#2F6B5A]">
+                    <div className="rounded-full border border-[#2F6B5A]/20 bg-[#2F6B5A]/8 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#2F6B5A]">
                       {t.hero.visual.status}
                     </div>
                   </div>
@@ -148,16 +177,15 @@ export default function Home() {
 
         <section id="problem" className="border-y border-black/10 bg-white/60">
           <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-            <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
               <div>
-                <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.problem.eyebrow}</div>
-                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.problem.title}</h2>
+                <SectionHeader eyebrow={t.problem.eyebrow} title={t.problem.title} />
                 <p className="mt-6 text-lg leading-8 text-[#111111]/70">{t.problem.body1}</p>
-                <p className="mt-6 text-lg leading-8 text-[#111111]/70">{t.problem.body2}</p>
+                <p className="mt-5 text-lg leading-8 text-[#111111]/70">{t.problem.body2}</p>
               </div>
 
               <div className="rounded-[2rem] border border-black/10 bg-[#F7F6F2] p-6">
-                <div className="text-[10px] uppercase tracking-[0.24em] text-[#111111]/55">{t.problem.cardTitle}</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#111111]/55">{t.problem.cardTitle}</div>
                 <div className="mt-4 space-y-4 text-lg leading-7 text-[#111111]/75">
                   {t.problem.questions.map((question, index) => (
                     <p key={question} className={index === 1 ? "font-medium text-[#111111]" : undefined}>
@@ -172,14 +200,11 @@ export default function Home() {
         </section>
 
         <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="mb-10 max-w-2xl">
-            <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.friction.eyebrow}</div>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.friction.title}</h2>
-          </div>
+          <SectionHeader eyebrow={t.friction.eyebrow} title={t.friction.title} />
 
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="mt-10 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="rounded-[2rem] border border-black/10 bg-white p-6">
-              <div className="text-[10px] uppercase tracking-[0.24em] text-[#111111]/55">{t.friction.infraTitle}</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#111111]/55">{t.friction.infraTitle}</div>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {t.friction.fragmentedTrust.map((item) => (
                   <div key={item} className="rounded-xl border border-black/10 bg-[#F7F6F2] px-4 py-3 text-sm text-[#111111]/75">
@@ -190,8 +215,8 @@ export default function Home() {
             </div>
 
             <div className="rounded-[2rem] border border-black/10 bg-[#111111] p-6 text-white">
-              <div className="text-[10px] uppercase tracking-[0.24em] text-white/60">{t.friction.costEyebrow}</div>
-              <h3 className="mt-4 text-3xl font-semibold tracking-[-0.05em]">{t.friction.costTitle}</h3>
+              <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/60">{t.friction.costEyebrow}</div>
+              <p className="mt-4 text-2xl font-semibold tracking-[-0.05em] text-white">{t.friction.costTitle}</p>
               <div className="mt-6 grid gap-3">
                 {t.friction.verificationCosts.map((item) => (
                   <div key={item} className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/75">
@@ -205,10 +230,9 @@ export default function Home() {
 
         <section className="border-y border-black/10 bg-white/60">
           <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-            <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
               <div>
-                <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.evidenceProblem.eyebrow}</div>
-                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.evidenceProblem.title}</h2>
+                <SectionHeader eyebrow={t.evidenceProblem.eyebrow} title={t.evidenceProblem.title} />
                 <p className="mt-6 text-lg leading-8 text-[#111111]/70">{t.evidenceProblem.body}</p>
               </div>
 
@@ -237,8 +261,7 @@ export default function Home() {
 
         <section id="solution" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.solution.eyebrow}</div>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.solution.title}</h2>
+            <SectionHeader eyebrow={t.solution.eyebrow} title={t.solution.title} align="center" />
             <p className="mt-6 text-lg leading-8 text-[#111111]/70">{t.solution.body}</p>
           </div>
 
@@ -256,7 +279,7 @@ export default function Home() {
                         : "border-black/10 bg-[#F7F6F2] text-[#111111]/80"
                     }`}
                   >
-                    <div className={`text-[10px] uppercase tracking-[0.2em] ${isProven ? "text-[#2F6B5A]" : "text-[#111111]/50"}`}>
+                    <div className={`font-mono text-[10px] uppercase tracking-[0.2em] ${isProven ? "text-[#2F6B5A]" : "text-[#111111]/50"}`}>
                       {item}
                     </div>
                   </div>
@@ -268,10 +291,9 @@ export default function Home() {
 
         <section className="border-y border-black/10 bg-white/60">
           <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-            <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
               <div>
-                <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.technicalGap.eyebrow}</div>
-                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.technicalGap.title}</h2>
+                <SectionHeader eyebrow={t.technicalGap.eyebrow} title={t.technicalGap.title} />
                 <p className="mt-6 text-lg leading-8 text-[#111111]/70">{t.technicalGap.body}</p>
               </div>
 
@@ -289,16 +311,13 @@ export default function Home() {
         </section>
 
         <section id="workflow" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="mb-12 max-w-3xl">
-            <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.workflow.eyebrow}</div>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.workflow.title}</h2>
-          </div>
+          <SectionHeader eyebrow={t.workflow.eyebrow} title={t.workflow.title} />
 
-          <div className="space-y-4">
+          <div className="mt-10 space-y-4">
             {t.workflow.steps.map((step, index) => (
               <div key={step.title} className="rounded-[1.75rem] border border-black/10 bg-white p-5 md:p-6">
                 <div className="grid gap-4 md:grid-cols-[120px_1fr_1fr] md:items-center">
-                  <div className="text-[10px] uppercase tracking-[0.24em] text-[#111111]/50">{String(index + 1).padStart(2, "0")}</div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#111111]/50">{String(index + 1).padStart(2, "0")}</div>
                   <div>
                     <div className="text-2xl font-semibold tracking-[-0.04em]">{step.title}</div>
                     <p className="mt-2 text-sm leading-6 text-[#111111]/65">{step.text}</p>
@@ -314,8 +333,7 @@ export default function Home() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="grid items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
               <div>
-                <div className="text-xs font-medium uppercase tracking-[0.24em] text-white/60">{t.evidenceLayer.eyebrow}</div>
-                <h2 className="mt-4 max-w-lg text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.evidenceLayer.title}</h2>
+                <SectionHeader eyebrow={t.evidenceLayer.eyebrow} title={t.evidenceLayer.title} dark />
                 <p className="mt-6 max-w-lg text-lg leading-8 text-white/70">{t.evidenceLayer.body}</p>
               </div>
 
@@ -323,25 +341,25 @@ export default function Home() {
                 <div className="rounded-[1.5rem] border border-white/10 bg-[#F7F6F2] p-5 text-[#111111]">
                   <div className="flex items-center justify-between border-b border-black/10 pb-4">
                     <div>
-                      <div className="text-[10px] uppercase tracking-[0.22em] text-[#111111]/55">{t.evidenceLayer.card.condition}</div>
+                      <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#111111]/55">{t.evidenceLayer.card.condition}</div>
                       <div className="mt-1 text-2xl font-semibold tracking-[-0.05em]">{t.evidenceLayer.card.title}</div>
                     </div>
-                    <div className="rounded-full bg-[#2F6B5A]/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[#2F6B5A]">
+                    <div className="rounded-full bg-[#2F6B5A]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#2F6B5A]">
                       {t.evidenceLayer.card.status}
                     </div>
                   </div>
 
                   <div className="mt-5 space-y-4">
                     <div className="rounded-xl border border-black/10 bg-white p-3">
-                      <div className="text-[10px] uppercase tracking-[0.18em] text-[#111111]/50">{t.evidenceLayer.card.required}</div>
+                      <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#111111]/50">{t.evidenceLayer.card.required}</div>
                       <div className="mt-2 text-lg font-medium">{t.evidenceLayer.card.requiredValue}</div>
                     </div>
                     <div className="rounded-xl border border-black/10 bg-white p-3">
-                      <div className="text-[10px] uppercase tracking-[0.18em] text-[#111111]/50">{t.evidenceLayer.card.issuers}</div>
+                      <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#111111]/50">{t.evidenceLayer.card.issuers}</div>
                       <div className="mt-2 text-base">{t.evidenceLayer.card.issuersValue}</div>
                     </div>
                     <div className="rounded-xl border border-[#2F6B5A]/20 bg-[#2F6B5A]/5 p-3">
-                      <div className="text-[10px] uppercase tracking-[0.18em] text-[#2F6B5A]">{t.evidenceLayer.card.statusLabel}</div>
+                      <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#2F6B5A]">{t.evidenceLayer.card.statusLabel}</div>
                       <div className="mt-2 text-lg font-semibold text-[#2F6B5A]">{t.evidenceLayer.card.statusValue}</div>
                     </div>
                   </div>
@@ -349,7 +367,7 @@ export default function Home() {
                   <div className="mt-6 grid gap-2 sm:grid-cols-2">
                     {t.evidenceLayer.proofItems.map((item) => (
                       <div key={item.label} className="rounded-xl border border-black/10 bg-white px-3 py-2">
-                        <div className="text-[10px] uppercase tracking-[0.18em] text-[#111111]/45">{item.label}</div>
+                        <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#111111]/45">{item.label}</div>
                         <div className="mt-1 font-mono text-xs text-[#111111]/80">{item.value}</div>
                       </div>
                     ))}
@@ -361,10 +379,9 @@ export default function Home() {
         </section>
 
         <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
             <div>
-              <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.issuers.eyebrow}</div>
-              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.issuers.title}</h2>
+              <SectionHeader eyebrow={t.issuers.eyebrow} title={t.issuers.title} />
               <p className="mt-6 text-lg leading-8 text-[#111111]/70">{t.issuers.body}</p>
             </div>
 
@@ -382,10 +399,9 @@ export default function Home() {
 
         <section className="border-y border-black/10 bg-white/60">
           <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-            <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
               <div>
-                <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.attestations.eyebrow}</div>
-                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.attestations.title}</h2>
+                <SectionHeader eyebrow={t.attestations.eyebrow} title={t.attestations.title} />
                 <p className="mt-6 text-lg leading-8 text-[#111111]/70">{t.attestations.body}</p>
               </div>
 
@@ -404,15 +420,12 @@ export default function Home() {
         </section>
 
         <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="mb-12 max-w-2xl">
-            <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.stateMachine.eyebrow}</div>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.stateMachine.title}</h2>
-          </div>
+          <SectionHeader eyebrow={t.stateMachine.eyebrow} title={t.stateMachine.title} />
 
-          <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-6">
+          <div className="mt-10 grid gap-4 md:grid-cols-3 xl:grid-cols-6">
             {t.stateMachine.states.map((step, index) => (
               <div key={step} className="rounded-2xl border border-black/10 bg-white p-5 text-center">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-[#111111]/50">{index + 1}</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#111111]/50">{index + 1}</div>
                 <div className="mt-4 text-sm font-semibold tracking-[0.08em] text-[#111111]/80">{step}</div>
               </div>
             ))}
@@ -420,25 +433,22 @@ export default function Home() {
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             <div className="rounded-[1.5rem] border border-[#B77D2B]/25 bg-[#B77D2B]/10 p-5 text-[#6C4A17]">
-              <div className="text-[10px] uppercase tracking-[0.2em]">{t.stateMachine.altBranch}</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.2em]">{t.stateMachine.altBranch}</div>
               <div className="mt-3 text-lg font-semibold tracking-[-0.03em]">{t.stateMachine.failed}</div>
             </div>
             <div className="rounded-[1.5rem] border border-[#8E3636]/20 bg-[#8E3636]/8 p-5 text-[#8E3636]">
-              <div className="text-[10px] uppercase tracking-[0.2em]">{t.stateMachine.altBranch}</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.2em]">{t.stateMachine.altBranch}</div>
               <div className="mt-3 text-lg font-semibold tracking-[-0.03em]">{t.stateMachine.disputed}</div>
             </div>
           </div>
         </section>
 
         <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="mb-10 max-w-2xl">
-            <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.example.eyebrow}</div>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.example.title}</h2>
-          </div>
+          <SectionHeader eyebrow={t.example.eyebrow} title={t.example.title} />
 
-          <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr]">
+          <div className="mt-10 grid gap-8 lg:grid-cols-[0.82fr_1.18fr]">
             <div className="rounded-[2rem] border border-black/10 bg-white p-6">
-              <div className="text-[10px] uppercase tracking-[0.24em] text-[#111111]/55">{t.example.contractLabel}</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#111111]/55">{t.example.contractLabel}</div>
               <div className="mt-3 text-2xl font-semibold tracking-[-0.05em]">{t.example.amount}</div>
               <div className="mt-6 rounded-xl border border-black/10 bg-[#F7F6F2] px-4 py-3 text-base">
                 <span className="text-[#111111]/60">{t.example.buyer}</span>
@@ -449,7 +459,7 @@ export default function Home() {
                 <div className="mt-1 text-lg font-medium">{t.example.sellerValue}</div>
               </div>
               <div className="mt-6 rounded-xl border border-black/10 bg-[#F7F6F2] p-4">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-[#111111]/55">{t.example.requirements}</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#111111]/55">{t.example.requirements}</div>
                 <div className="mt-3 grid gap-2">
                   {t.example.requirementItems.map((item) => (
                     <div key={item} className="text-sm text-[#111111]/75">{item}</div>
@@ -461,11 +471,11 @@ export default function Home() {
             <div className="rounded-[2rem] border border-black/10 bg-[#F7F6F2] p-6 md:p-8">
               <div className="flex items-start justify-between gap-4 border-b border-black/10 pb-4">
                 <div>
-                  <div className="text-[10px] uppercase tracking-[0.22em] text-[#111111]/55">{t.example.progress}</div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#111111]/55">{t.example.progress}</div>
                   <div className="mt-2 text-3xl font-semibold tracking-[-0.05em]">{t.example.progressValue}</div>
                   <div className="mt-2 text-base text-[#111111]/65">{t.example.pending}</div>
                 </div>
-                <div className="rounded-full border border-[#B77D2B]/30 bg-[#B77D2B]/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[#B77D2B]">
+                <div className="rounded-full border border-[#B77D2B]/30 bg-[#B77D2B]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#B77D2B]">
                   {t.example.pendingBadge}
                 </div>
               </div>
@@ -493,7 +503,7 @@ export default function Home() {
               <div className="mt-8 rounded-[1.5rem] border border-[#2F6B5A]/20 bg-[#2F6B5A]/5 p-6">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                   <div>
-                    <div className="text-[10px] uppercase tracking-[0.22em] text-[#2F6B5A]">{t.example.newEvidence}</div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2F6B5A]">{t.example.newEvidence}</div>
                     <div className="mt-2 text-2xl font-semibold tracking-[-0.05em] text-[#111111]">{t.example.evidenceValue}</div>
                     <div className="mt-2 text-sm text-[#111111]/65">{t.example.evidenceIssuer}</div>
                   </div>
@@ -501,7 +511,7 @@ export default function Home() {
                 </div>
 
                 <div className="mt-6 rounded-xl border border-[#2F6B5A]/20 bg-white p-4 text-center">
-                  <div className="text-xs uppercase tracking-[0.22em] text-[#111111]/55">{t.example.contractState}</div>
+                  <div className="font-mono text-xs uppercase tracking-[0.22em] text-[#111111]/55">{t.example.contractState}</div>
                   <div className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-[#111111]">{t.example.successValue}</div>
                   <div className="mt-3 text-xl font-medium text-[#2F6B5A]">{t.example.successStatus}</div>
                   <div className="mt-4 text-sm text-[#111111]/65">{t.example.successNote}</div>
@@ -514,8 +524,7 @@ export default function Home() {
         <section className="border-y border-black/10 bg-white/60">
           <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
             <div className="mx-auto max-w-3xl text-center">
-              <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.settlement.eyebrow}</div>
-              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.settlement.title}</h2>
+              <SectionHeader eyebrow={t.settlement.eyebrow} title={t.settlement.title} align="center" />
             </div>
 
             <div className="mt-12 grid gap-4 md:grid-cols-4">
@@ -531,7 +540,7 @@ export default function Home() {
                         : "border-black/10 bg-[#F7F6F2] text-[#111111]"
                     }`}
                   >
-                    <div className={`text-[10px] uppercase tracking-[0.2em] ${isFinal ? "text-[#2F6B5A]" : "text-[#111111]/50"}`}>
+                    <div className={`font-mono text-[10px] uppercase tracking-[0.2em] ${isFinal ? "text-[#2F6B5A]" : "text-[#111111]/50"}`}>
                       {index + 1}
                     </div>
                     <div className="mt-4 text-xl font-semibold tracking-[-0.04em]">{step}</div>
@@ -543,15 +552,12 @@ export default function Home() {
         </section>
 
         <section id="oracle" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="mb-12 max-w-2xl">
-            <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.oracle.eyebrow}</div>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.oracle.title}</h2>
-            <p className="mt-6 text-lg leading-8 text-[#111111]/70">{t.oracle.body}</p>
-          </div>
+          <SectionHeader eyebrow={t.oracle.eyebrow} title={t.oracle.title} />
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-[#111111]/70">{t.oracle.body}</p>
 
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="mt-10 grid gap-6 lg:grid-cols-2">
             <div className="rounded-[1.75rem] border border-black/10 bg-white p-6">
-              <div className="text-[10px] uppercase tracking-[0.22em] text-[#111111]/50">{t.oracle.traditional}</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#111111]/50">{t.oracle.traditional}</div>
               <div className="mt-4 space-y-3 text-sm text-[#111111]/70">
                 {t.oracle.traditionalSteps.map((item, index) => (
                   <div key={item}>
@@ -563,7 +569,7 @@ export default function Home() {
             </div>
 
             <div className="rounded-[1.75rem] border border-black/10 bg-[#111111] p-6 text-white">
-              <div className="text-[10px] uppercase tracking-[0.22em] text-white/60">{t.oracle.proven}</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/60">{t.oracle.proven}</div>
               <div className="mt-4 space-y-3 text-sm text-white/75">
                 {t.oracle.provenSteps.map((item, index) => (
                   <div key={item}>
@@ -578,12 +584,9 @@ export default function Home() {
 
         <section className="border-y border-black/10 bg-white/60">
           <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-            <div className="mb-12 max-w-2xl">
-              <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.trustStack.eyebrow}</div>
-              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.trustStack.title}</h2>
-            </div>
+            <SectionHeader eyebrow={t.trustStack.eyebrow} title={t.trustStack.title} />
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {t.trustStack.items.map((item, index) => (
                 <div
                   key={`${item}-${index}`}
@@ -602,8 +605,7 @@ export default function Home() {
 
         <section id="architecture" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.architecture.eyebrow}</div>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.architecture.title}</h2>
+            <SectionHeader eyebrow={t.architecture.eyebrow} title={t.architecture.title} align="center" />
             <p className="mt-6 text-lg leading-8 text-[#111111]/70">{t.architecture.body}</p>
           </div>
 
@@ -620,12 +622,9 @@ export default function Home() {
         </section>
 
         <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="mb-10 max-w-2xl">
-            <div className="text-xs font-medium uppercase tracking-[0.24em] text-[#111111]/55">{t.useCases.eyebrow}</div>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-5xl">{t.useCases.title}</h2>
-          </div>
+          <SectionHeader eyebrow={t.useCases.eyebrow} title={t.useCases.title} />
 
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
             {t.useCases.items.map((useCase) => (
               <div key={useCase} className="rounded-[1.5rem] border border-black/10 bg-white p-5">
                 <div className="text-lg font-semibold tracking-[-0.04em]">{useCase}</div>
@@ -637,8 +636,7 @@ export default function Home() {
 
         <section className="bg-[#111111] py-20 text-white">
           <div className="mx-auto max-w-5xl px-6 text-center lg:px-8">
-            <div className="text-xs font-medium uppercase tracking-[0.24em] text-white/60">{t.vision.eyebrow}</div>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] md:text-6xl">{t.vision.title}</h2>
+            <SectionHeader eyebrow={t.vision.eyebrow} title={t.vision.title} align="center" dark />
             <p className="mt-6 text-xl text-white/70">{t.vision.body}</p>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-5">

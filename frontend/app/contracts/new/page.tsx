@@ -10,6 +10,9 @@ import { draftConditionTemplates } from "@/data/conditions/mockConditions";
 import { contractsNeedingAttention } from "@/data/contracts/mockContracts";
 import type { Condition } from "@/data/types";
 import { mockUser } from "@/data/users/mockUser";
+import { createProvenContractWithConditions } from "@/lib/blockchain/contracts";
+import { requestWalletConnection } from "@/lib/blockchain/wallet";
+import type { Address } from "viem";
 
 type DraftContract = {
   name: string;
@@ -43,6 +46,9 @@ export default function NewContractPage() {
   const statusLabels = translations[locale].statuses;
   const [step, setStep] = useState(0);
   const [isCreating, setIsCreating] = useState(false);
+  const [isConnectingWallet, setIsConnectingWallet] = useState(false);
+  const [walletAddress, setWalletAddress] = useState<Address | null>(null);
+  const [walletError, setWalletError] = useState<string | null>(null);
   const [draft, setDraft] = useState<DraftContract>(initialDraft);
   const [conditions, setConditions] = useState<Condition[]>(draftConditionTemplates.slice(0, 4));
 
@@ -68,10 +74,68 @@ export default function NewContractPage() {
   const goNext = () => setStep((current) => Math.min(current + 1, steps.length - 1));
   const goBack = () => setStep((current) => Math.max(current - 1, 0));
 
+  const handleConnectWallet = async () => {
+    setIsConnectingWallet(true);
+    setWalletError(null);
+
+    try {
+      const connected = await requestWalletConnection();
+      setWalletAddress(connected.address);
+      return connected.address;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to connect wallet.";
+      setWalletError(message);
+      return null;
+    } finally {
+      setIsConnectingWallet(false);
+    }
+  };
+
   const handleCreate = async () => {
+    let connectedAddress = walletAddress;
+
+    if (!connectedAddress) {
+      connectedAddress = await handleConnectWallet();
+    }
+
+    if (!connectedAddress) {
+      return;
+    }
+
     setIsCreating(true);
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    router.push("/contracts/medical-supply-agreement?created=1");
+    setWalletError(null);
+
+    try {
+      const amount = (draft.value ?? "0").trim();
+      const value = Number.parseFloat(amount);
+
+      if (!Number.isFinite(value) || value <= 0) {
+        throw new Error("Contract value must be greater than zero.");
+      }
+
+      await createProvenContractWithConditions({
+        buyer: connectedAddress,
+        seller: connectedAddress,
+        value: amount,
+        currency: draft.currency,
+        metadataLabel: `${draft.name} — ${draft.reference}`,
+        creatorAddress: connectedAddress,
+        conditions: conditions.map((condition) => ({
+          title: condition.title,
+          description: condition.description,
+          requiredEvidence: condition.requiredEvidence,
+          authorizedIssuer: condition.authorizedIssuer,
+          verificationMethod: condition.verificationMethod,
+        })),
+      });
+
+      router.push("/contracts?created=1");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Transaction failed.";
+      setWalletError(message);
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   return (
@@ -93,6 +157,29 @@ export default function NewContractPage() {
         <WizardStepper steps={steps} currentStep={step} />
 
         <div className="rounded-[1.75rem] border border-black/10 bg-white p-6 md:p-8">
+          <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-[#2F6B5A]/15 bg-[#2F6B5A]/5 p-4 text-sm text-[#244D42] md:flex-row md:items-center md:justify-between">
+            <div>
+              <div className="font-medium">Wallet status</div>
+              <div className="mt-1 text-[#244D42]/80">
+                {walletAddress ? `Connected: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : "Not connected yet"}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleConnectWallet}
+              disabled={isConnectingWallet || isCreating}
+              className="inline-flex items-center justify-center rounded-full bg-[#111111] px-4 py-2 text-xs font-medium text-white transition hover:bg-[#2F6B5A] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isConnectingWallet ? "Connecting..." : walletAddress ? "Reconnect wallet" : "Connect wallet"}
+            </button>
+          </div>
+
+          {walletError ? (
+            <div className="mb-6 rounded-xl border border-[#8E3636]/20 bg-[#8E3636]/8 px-4 py-3 text-sm text-[#6F2929]">
+              {walletError}
+            </div>
+          ) : null}
+
           {step === 0 ? (
             <div className="grid gap-5 md:grid-cols-2">
               <label className="block md:col-span-2">

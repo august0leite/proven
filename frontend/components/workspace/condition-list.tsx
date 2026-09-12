@@ -41,6 +41,23 @@ export function ConditionList({
   const [expandedId, setExpandedId] = useState<string | null>(conditions[0]?.id ?? null);
   const verifiedCount = conditions.filter((condition) => condition.status === "verified").length;
 
+  if (conditions.length === 0) {
+    return (
+      <section className="rounded-[1.75rem] border border-black/10 bg-white p-6">
+        <div className="flex flex-col gap-3 border-b border-black/10 pb-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 className="text-2xl font-semibold tracking-[-0.04em] text-[#111111]">{title}</h2>
+            <p className="mt-2 text-sm text-[#111111]/60">0 {ofLabel} 0 {progressLabel}</p>
+          </div>
+        </div>
+
+        <div className="mt-6 rounded-[1.25rem] border border-dashed border-black/15 bg-[#F7F6F2] p-6 text-sm text-[#111111]/60">
+          Nenhuma condição foi registrada ainda para este contrato na blockchain.
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="rounded-[1.75rem] border border-black/10 bg-white p-6">
       <div className="flex flex-col gap-3 border-b border-black/10 pb-5 md:flex-row md:items-end md:justify-between">
