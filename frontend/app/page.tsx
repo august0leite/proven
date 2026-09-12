@@ -99,9 +99,6 @@ export default function Home() {
         <section id="hero" className="mx-auto max-w-7xl px-6 pb-20 pt-16 lg:px-8 lg:pt-20">
           <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
             <div>
-              <div className="mb-6 inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-[#111111]/70">
-                {t.hero.badge}
-              </div>
 
               <h1 className="max-w-[720px] text-5xl font-semibold leading-[0.96] tracking-[-0.06em] text-[#111111] md:text-6xl lg:text-7xl">
                 {t.hero.title}
@@ -125,14 +122,6 @@ export default function Home() {
                 </a>
               </div>
 
-              <div className="mt-10 grid max-w-xl grid-cols-3 gap-4 text-left">
-                {t.hero.stats.map((item) => (
-                  <div key={item.label} className="rounded-2xl border border-black/10 bg-white p-4">
-                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#111111]/55">{item.label}</div>
-                    <div className="mt-3 text-2xl font-semibold tracking-[-0.05em]">{item.value}</div>
-                  </div>
-                ))}
-              </div>
             </div>
 
             <div className="relative">
@@ -141,9 +130,6 @@ export default function Home() {
                 <div className="rounded-[1.5rem] border border-[#111111]/10 bg-[#F7F6F2] p-4">
                   <div className="flex items-center justify-between border-b border-black/10 pb-4">
                     <div>
-                      <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#111111]/55">
-                        {t.hero.visual.badge}
-                      </div>
                       <p className="mt-1 text-lg font-medium tracking-[-0.04em]">{t.hero.visual.title}</p>
                     </div>
                     <div className="rounded-full border border-[#2F6B5A]/20 bg-[#2F6B5A]/8 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#2F6B5A]">
@@ -289,6 +275,25 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="workflow" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+          <SectionHeader eyebrow={t.workflow.eyebrow} title={t.workflow.title} />
+
+          <div className="mt-10 space-y-4">
+            {t.workflow.steps.map((step, index) => (
+              <div key={step.title} className="rounded-[1.75rem] border border-black/10 bg-white p-5 md:p-6">
+                <div className="grid gap-4 md:grid-cols-[120px_1fr_1fr] md:items-center">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#111111]/50">{String(index + 1).padStart(2, "0")}</div>
+                  <div>
+                    <div className="text-2xl font-semibold tracking-[-0.04em]">{step.title}</div>
+                    <p className="mt-2 text-sm leading-6 text-[#111111]/65">{step.text}</p>
+                  </div>
+                  <div className="rounded-xl border border-black/10 bg-[#F7F6F2] px-4 py-3 text-sm text-[#111111]/70">{step.detail}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="border-y border-black/10 bg-white/60">
           <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
             <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
@@ -307,25 +312,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        <section id="workflow" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <SectionHeader eyebrow={t.workflow.eyebrow} title={t.workflow.title} />
-
-          <div className="mt-10 space-y-4">
-            {t.workflow.steps.map((step, index) => (
-              <div key={step.title} className="rounded-[1.75rem] border border-black/10 bg-white p-5 md:p-6">
-                <div className="grid gap-4 md:grid-cols-[120px_1fr_1fr] md:items-center">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#111111]/50">{String(index + 1).padStart(2, "0")}</div>
-                  <div>
-                    <div className="text-2xl font-semibold tracking-[-0.04em]">{step.title}</div>
-                    <p className="mt-2 text-sm leading-6 text-[#111111]/65">{step.text}</p>
-                  </div>
-                  <div className="rounded-xl border border-black/10 bg-[#F7F6F2] px-4 py-3 text-sm text-[#111111]/70">{step.detail}</div>
-                </div>
-              </div>
-            ))}
           </div>
         </section>
 
